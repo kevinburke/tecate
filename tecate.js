@@ -1,7 +1,7 @@
 var Tecate = Tecate || {};
 
 Tecate.missingClosingTag = {
-    'regex': new RegExp("(<[^>]+<)", "g"),
+    'regex': new RegExp("(<[^>]+)<", "g"),
     'message': "Opening tag with no closing tag"
 },
 Tecate.missingQuoteAfterEquals = {
@@ -19,8 +19,6 @@ Tecate.errors = [
     Tecate.missingClosingTag
 ];
 
-Tecate.errorDivName = 'tecate-errors';
-
 Tecate.getPageSource = function(callback) {
     return $.get('', function(data) {
         callback(data);
@@ -32,7 +30,7 @@ Tecate.insertErrorDiv = function() {
         padding: 0,
         margin: 0
     });
-    var $div = $("<div id='" + Tecate.errorDivName + "'>" + "</div>").css({
+    var $div = $("<div id='tecate-errors'/>").css({
             backgroundColor: '#f2dede',
             padding: '10px 25px',
             border: '1px solid #eed3d7',
@@ -47,8 +45,27 @@ Tecate.insertErrorDiv = function() {
     $('body').prepend($div);
 };
 
+Tecate.htmlEscapes = {
+  '&': '&amp;',
+  '<': '&lt;',
+  '>': '&gt;',
+  '"': '&quot;',
+  "'": '&#x27;',
+  '/': '&#x2F;'
+};
+
+Tecate.htmlEscaper = /[&<>"'\/]/g;
+
+// Escape a string for HTML interpolation.
+Tecate.escapeHTML = function(unsafe) {
+  return ('' + unsafe).replace(Tecate.htmlEscaper, function(match) {
+      console.log(match);
+    return Tecate.htmlEscapes[match];
+  });
+};
+
 Tecate.appendError = function(error) {
-    $("#tecate-errors-list").append($("<li>" + error.errorString + ': <code>' + error.error + '</code> on line ' + error.line + "</li>"));
+    $("#tecate-errors-list").append($("<li>" + error.errorString + ': <code>' + Tecate.escapeHTML(error.error) + '</code> on line ' + error.line + "</li>"));
 };
 
 Tecate.showErrors = function(errorsList) {
