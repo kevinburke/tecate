@@ -4,6 +4,10 @@ Tecate.missingClosingTag = {
     'regex': new RegExp("(<[^>]+)<", "g"),
     'message': "Opening tag with no closing tag"
 },
+Tecate.missingEquals = {
+    'regex': new RegExp("(<(.*)[^=]+['\"]\\S+['\"])", "g"),
+    'message': "Missing equals sign for attribute"
+},
 Tecate.missingQuoteAfterEquals = {
     'regex': new RegExp("(\\S+=[^'\"]+['\"])[ >]", "g"),
     'message': "Missing quote after equals sign for attribute"
@@ -16,7 +20,8 @@ Tecate.missingQuoteAtEndOfAttribute = {
 Tecate.errors = [
     Tecate.missingQuoteAtEndOfAttribute,
     Tecate.missingQuoteAfterEquals,
-    Tecate.missingClosingTag
+    Tecate.missingClosingTag,
+    Tecate.missingEquals
 ];
 
 Tecate.getPageSource = function(callback) {

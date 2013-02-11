@@ -8,16 +8,20 @@ describe("Regex tests", function() {
         expect(Tecate.missingClosingTag.regex.exec("<div>    <div>")).toBe(null);
     });
 
-    it("doesn't match a valid html attribute", function() {
-        expect(Tecate.missingClosingTag.regex.exec(validAttribute)).toBe(null);
+    it("doesn't fail any regex for valid HTML tags", function() {
+        for (var i = 0; i < Tecate.errors.length; i++) {
+            expect(Tecate.errors[i].regex.exec("<div>    <div><img/></div>")).toBe(null);
+        }
     });
 
-    it("doesn't match valid HTML attributes", function() {
-        expect(Tecate.missingClosingTag.regex.exec("<div>    <div>")).toBe(null);
+    it("doesn't fail any regex for valid HTML attributes", function() {
+        for (var i = 0; i < Tecate.errors.length; i++) {
+            expect(Tecate.errors[i].regex.exec(validAttribute)).toBe(null);
+        }
     });
 
-    it("missing quote regex doesn't match valid attributes", function() {
-        expect(Tecate.missingQuoteAfterEquals.regex.exec(validAttribute)).toBe(null);
+    it("breaks if you forget an equals sign", function() {
+        expect(Tecate.missingEquals.regex.exec("<a href\"cool\">link</a>").index).toBe(0);
     });
 
     it("detects when you forget a opening quotation after the equals sign", function() {
@@ -26,10 +30,6 @@ describe("Regex tests", function() {
 
     it("detects when you forget a opening single quotation after the equals sign", function() {
         expect(Tecate.missingQuoteAfterEquals.regex.exec("<a href=cool\'>link</a>").index).toBe(3);
-    });
-
-    it("missing end quote regex doesn't match valid attributes", function() {
-        expect(Tecate.missingQuoteAtEndOfAttribute.regex.exec(validAttribute)).toBe(null);
     });
 
     it("strips comments from html", function() {
@@ -41,6 +41,8 @@ describe("Regex tests", function() {
     });
 
     afterEach(function() {
+        // reset the exec() calls in js. if someone knows a better way to do
+        // global searches with matching, let me know.
         for (var i = 0; i < Tecate.errors.length; i++) {
             Tecate.errors[i].regex.lastIndex = 0;
         }
