@@ -6,4 +6,8 @@ describe("Regex tests", function() {
     it("doesn't match two opening HTML tags with a closing tag in between", function() {
         expect(Tecate.missingClosingTag.regex.exec("<div>    <div>")).toBe(null);
     });
+
+    it("strips comments from html", function() {
+        expect(Tecate.stripComments("hey<!-- <<<<a href='comment'>--><")).toBe("hey<");
+    });
 });

@@ -1,7 +1,7 @@
 var Tecate = Tecate || {};
 
 Tecate.missingClosingTag = {
-    'regex': new RegExp("(<)", "g"),
+    'regex': new RegExp("(<[^>]+<)", "g"),
     'message': "Opening tag with no closing tag"
 },
 Tecate.missingQuoteAfterEquals = {
@@ -67,16 +67,18 @@ Tecate.getErrorLines = function(idx) {
 };
 
 Tecate.stripComments = function(html) {
-    return html.replace(/<!--(\.*)-->/g, "");
+    return html.replace(/<!--(.*)-->/g, "");
 };
 
 Tecate.evaluateHtml = function(html) {
     var result;
     var errorsList = [];
     var commentFreeHtml = Tecate.stripComments(html);
+    console.log(commentFreeHtml);
     for (var i = 0; i < Tecate.errors.length; i++) {
         var error = Tecate.errors[i];
         while ((result = error.regex.exec(commentFreeHtml)) !== null) {
+            console.log(result[1]);
             errorsList.push({
                 'errorString': error.message,
                 'error': result[1],
