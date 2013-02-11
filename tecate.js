@@ -55,12 +55,17 @@ htmlparser.getErrorLines = function(idx) {
     return idx;
 };
 
+htmlparser.stripComments = function(html) {
+    return html.replace(/<!--(\.*)-->/g, "");
+};
+
 htmlparser.evaluateHtml = function(html) {
     var result;
     var errorsList = [];
+    var commentFreeHtml = htmlparser.stripComments(html);
     for (var i = 0; i < htmlparser.errors.length; i++) {
         var error = htmlparser.errors[i];
-        while ((result = error.regex.exec(html)) !== null) {
+        while ((result = error.regex.exec(commentFreeHtml)) !== null) {
             errorsList.push({
                 'errorString': error.message,
                 'error': result[1],
