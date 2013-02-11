@@ -59,7 +59,6 @@ Tecate.htmlEscaper = /[&<>"'\/]/g;
 // Escape a string for HTML interpolation.
 Tecate.escapeHTML = function(unsafe) {
   return ('' + unsafe).replace(Tecate.htmlEscaper, function(match) {
-      console.log(match);
     return Tecate.htmlEscapes[match];
   });
 };

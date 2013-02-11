@@ -20,6 +20,14 @@ describe("Regex tests", function() {
         expect(Tecate.missingQuoteAfterEquals.regex.exec(validAttribute)).toBe(null);
     });
 
+    it("detects when you forget a opening quotation after the equals sign", function() {
+        expect(Tecate.missingQuoteAfterEquals.regex.exec("<a href=cool\">link</a>").index).toBe(3);
+    });
+
+    it("detects when you forget a opening single quotation after the equals sign", function() {
+        expect(Tecate.missingQuoteAfterEquals.regex.exec("<a href=cool\'>link</a>").index).toBe(3);
+    });
+
     it("missing end quote regex doesn't match valid attributes", function() {
         expect(Tecate.missingQuoteAtEndOfAttribute.regex.exec(validAttribute)).toBe(null);
     });
@@ -30,5 +38,11 @@ describe("Regex tests", function() {
 
     it("escapes unsafe HTML", function() {
         expect(Tecate.escapeHTML("<>\"&")).toBe("&lt;&gt;&quot;&amp;");
+    });
+
+    afterEach(function() {
+        for (var i = 0; i < Tecate.errors.length; i++) {
+            Tecate.errors[i].regex.lastIndex = 0;
+        }
     });
 });
