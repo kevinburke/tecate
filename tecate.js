@@ -1,27 +1,38 @@
-var htmlparser = htmlparser || {};
+var Tecate = Tecate || {};
 
-htmlparser.errors = [{
+Tecate.missingClosingTag = {
+    'regex': new RegExp("(<)", "g"),
+    'message': "Opening tag with no closing tag"
+},
+Tecate.missingQuoteAfterEquals = {
     'regex': new RegExp("(\\S+=[^'\"]+['\"])[ >]", "g"),
     'message': "Missing quote after equals sign for attribute"
-}, {
+},
+Tecate.missingQuoteAtEndOfAttribute = {
     'regex': new RegExp("(\\S+=['\"][^'\" >]+)[ >]", "g"),
     'message': "Missing quote at the end of the attribute"
-}];
+};
 
-htmlparser.errorDivName = 'htmlparser-errors';
+Tecate.errors = [
+    Tecate.missingQuoteAtEndOfAttribute,
+    Tecate.missingQuoteAfterEquals,
+    Tecate.missingClosingTag
+];
 
-htmlparser.getPageSource = function(callback) {
+Tecate.errorDivName = 'tecate-errors';
+
+Tecate.getPageSource = function(callback) {
     return $.get('', function(data) {
         callback(data);
     });
 };
 
-htmlparser.insertErrorDiv = function() {
-    var list = $("<ul id='htmlparser-errors-list'></ul>").css({
+Tecate.insertErrorDiv = function() {
+    var list = $("<ul id='tecate-errors-list'></ul>").css({
         padding: 0,
         margin: 0
     });
-    var $div = $("<div id='" + htmlparser.errorDivName + "'>" + "</div>").css({
+    var $div = $("<div id='" + Tecate.errorDivName + "'>" + "</div>").css({
             backgroundColor: '#f2dede',
             padding: '10px 25px',
             border: '1px solid #eed3d7',
@@ -36,47 +47,49 @@ htmlparser.insertErrorDiv = function() {
     $('body').prepend($div);
 };
 
-htmlparser.appendError = function(error) {
-    $("#htmlparser-errors-list").append($("<li>" + error.errorString + ': <code>' + error.error + '</code> on line ' + error.line + "</li>"));
+Tecate.appendError = function(error) {
+    $("#tecate-errors-list").append($("<li>" + error.errorString + ': <code>' + error.error + '</code> on line ' + error.line + "</li>"));
 };
 
-htmlparser.showErrors = function(errorsList) {
+Tecate.showErrors = function(errorsList) {
     if (errorsList.length === 0) {
         return;
     }
-    htmlparser.insertErrorDiv();
+    Tecate.insertErrorDiv();
     for (var i = 0; i < errorsList.length; i++) {
-        htmlparser.appendError(errorsList[i]);
+        Tecate.appendError(errorsList[i]);
     }
 };
 
-htmlparser.getErrorLines = function(idx) {
+Tecate.getErrorLines = function(idx) {
     // XXX
     return idx;
 };
 
-htmlparser.stripComments = function(html) {
+Tecate.stripComments = function(html) {
     return html.replace(/<!--(\.*)-->/g, "");
 };
 
-htmlparser.evaluateHtml = function(html) {
+Tecate.evaluateHtml = function(html) {
     var result;
     var errorsList = [];
-    var commentFreeHtml = htmlparser.stripComments(html);
-    for (var i = 0; i < htmlparser.errors.length; i++) {
-        var error = htmlparser.errors[i];
+    var commentFreeHtml = Tecate.stripComments(html);
+    for (var i = 0; i < Tecate.errors.length; i++) {
+        var error = Tecate.errors[i];
         while ((result = error.regex.exec(commentFreeHtml)) !== null) {
             errorsList.push({
                 'errorString': error.message,
                 'error': result[1],
-                'line': htmlparser.getErrorLines(result.index, html),
+                'line': Tecate.getErrorLines(result.index, html),
                 'html': html
             });
         }
     }
-    htmlparser.showErrors(errorsList);
+    Tecate.showErrors(errorsList);
 };
 
 $(function() {
-    htmlparser.getPageSource(htmlparser.evaluateHtml);
+    if (!Tecate.test) {
+        Tecate.getPageSource(Tecate.evaluateHtml);
+    }
 });
