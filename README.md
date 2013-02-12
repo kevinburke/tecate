@@ -17,7 +17,7 @@ Say you forgot to close a div, or closed it badly:
 </div>
 ```
 
-Tecate will catch it and warn you:
+Tecate will catch it and warn you at the top of your page.
 
     Opening tag with no closing tag: <div class="foo" on line 2
 
@@ -29,7 +29,7 @@ Tecate will catch it and warn you:
 </div>
 ```
 
-Tecate will catch it and warn you:
+Tecate will catch it and warn you at the top of your page.
 
     Missing equals sign for attribute: <div class"foo" on line 17
 
@@ -42,6 +42,8 @@ These are some of the most pernicious.
     <a href="blah>Some text</a>
 </div>
 ```
+
+Tecate will warn you if you screw these up.
 
 ### Usage
 
@@ -60,3 +62,7 @@ Drop this into the &lt;head> of your HTML document, like this:
     </body>
 </html>
 ```
+
+Then you'll start getting nice error messages, like this:
+
+<img src="https://www.evernote.com/shard/s265/sh/1d0ef423-e5de-4e40-a110-fad2ccd01bef/22bffc622af4152261b63184ad4b8cae/res/645f4d83-f8a8-45c7-8ec7-b2fc12b5e16d/skitch.png" alt="error message" />
