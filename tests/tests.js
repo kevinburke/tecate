@@ -56,6 +56,10 @@ describe("Regex tests", function() {
         expect("</html>").not.toMatch(Tecate.invalidHTMLElement.regex);
     });
 
+    it("does not match valid closing elements with spaces", function() {
+        expect("< / html>").not.toMatch(Tecate.invalidHTMLElement.regex);
+    });
+
     afterEach(function() {
         // reset the exec() calls in js. if someone knows a better way to do
         // global searches with matching, let me know.
