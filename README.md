@@ -1,10 +1,12 @@
-## Tecate.js
+# Tecate.js
 
 Writing HTML is hard. Let's go shopping
 
 ### Usage
 
-Drop this into the &lt;head> of your HTML document, like this:
+You have an HTML file and you want to check if you made a mistake writing the
+HTML tags. Drop `tecate.js` into the &lt;head> of your HTML document, like
+this:
 
 ```html
 <!doctype html>

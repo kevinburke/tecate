@@ -32,7 +32,7 @@ Tecate.errors = [
 ];
 
 Tecate.getPageSource = function(callback) {
-    return $.get('', function(data) {
+    return $.get(window.location.href, function(data) {
         callback(data);
     });
 };
@@ -104,7 +104,9 @@ Tecate.stripComments = function(html) {
     return html.replace(/<!--(.*)-->/g, "");
 };
 
-Tecate.evaluateHtml = function(html) {
+// XXX this should return the errorsList and delegate to another function to
+// render
+Tecate.evaluateHTML = function(html) {
     var result;
     var errorsList = [];
     var commentFreeHtml = Tecate.stripComments(html);
@@ -124,6 +126,6 @@ Tecate.evaluateHtml = function(html) {
 
 $(function() {
     if (!Tecate.test) {
-        Tecate.getPageSource(Tecate.evaluateHtml);
+        Tecate.getPageSource(Tecate.evaluateHTML);
     }
 });
