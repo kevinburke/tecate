@@ -1,5 +1,5 @@
 var validAttribute = "<a href='blah' attr=\"bar\">test</a>";
-describe("Regex tests", function() {
+describe("Regex error matching tests", function() {
     it("matches two opening HTML tags without a closing tag", function() {
         expect("<div    <div>").toMatch(Tecate.missingClosingTag.regex);
     });
@@ -28,16 +28,16 @@ describe("Regex tests", function() {
         expect(Tecate.missingEquals.regex.exec("<div> <div><div><a href\"cool\">link</a>").index).toBe(16);
     });
 
+    it("computes match indexes the way I believe it does", function() {
+        expect(new RegExp("bar").exec("foo\nbar").index).toBe(4);
+    });
+
     it("detects when you forget a opening quotation after the equals sign", function() {
         expect("<a href=cool\">link</a>").toMatch(Tecate.missingQuoteAfterEquals.regex);
     });
 
     it("detects when you forget a opening single quotation after the equals sign", function() {
         expect("<a href=cool\'>link</a>").toMatch(Tecate.missingQuoteAfterEquals.regex);
-    });
-
-    it("strips comments from html", function() {
-        expect(Tecate.stripComments("hey<!-- <<<<a href='comment'>--><")).toBe("hey<");
     });
 
     it("escapes unsafe HTML", function() {
@@ -66,5 +66,20 @@ describe("Regex tests", function() {
         for (var i = 0; i < Tecate.errors.length; i++) {
             Tecate.errors[i].regex.lastIndex = 0;
         }
+    });
+});
+
+describe("Tecate tests", function() {
+    it("correctly detects line numbers for an index", function() {
+        expect(Tecate.getErrorLines(2, "<html>\n<head>")).toBe(1);
+        expect(Tecate.getErrorLines(8, "<html>\n<head>")).toBe(2);
+        expect(Tecate.getErrorLines(20, "<html>\n<head>")).toBe(2);
+        expect(Tecate.getErrorLines(7, "blah\nbar\nfoo")).toBe(2);
+        expect(Tecate.getErrorLines(9, "blah\nbar\nfoo\ncoo")).toBe(3);
+    });
+
+    it("strips comments from html", function() {
+        expect(Tecate.stripComments("hey<!-- <<<<a href='comment'>--><")).toBe("hey<");
+        expect(Tecate.stripComments("hey<!--comment --  ><")).toBe("hey<");
     });
 });

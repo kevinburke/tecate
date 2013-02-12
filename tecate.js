@@ -3,7 +3,7 @@ var Tecate = Tecate || {};
 Tecate.validHTMLElements = [ "a", "abbr", "acronym", "address", "applet", "area", "article", "aside", "audio", "b", "base", "basefont", "bdi", "bdo", "bgsound", "big", "blink", "blockquote", "body", "br", "button", "canvas", "caption", "center", "cite", "code", "colgroup", "del", "details", "dfn", "dir", "div", "dl", "!doctype", "dt", "em", "embed", "fieldset", "figcaption", "figure", "font", "footer", "form", "frame", "h1", "h2", "h3", "h4", "h5", "h6", "head", "header", "hgroup", "hr", "html", "i", "iframe", "img", "input", "ins", "kbd", "keygen", "label", "legend", "li", "link", "listing", "map", "mark", "marquee", "menu", "meta", "meter", "nav", "noscript", "object", "ol", "optgroup", "option", "output", "p", "param", "plaintext", "pre", "progress", "q", "ruby", "s", "samp", "script", "section", "select", "small", "source", "span", "strike", "strong", "style", "sub", "summary", "sup", "table", "tbody", "td", "textarea", "tfoot", "th", "thead", "time", "title", "tr", "track", "tt", "u", "ul", "var", "video", "wbr", "xmp" ];
 
 Tecate.missingClosingTag = {
-    'regex': new RegExp("(<[^>]+)<", "g"),
+    'regex': new RegExp("(<[^>]+<)", "g"),
     'message': "Opening tag with no closing tag"
 },
 Tecate.invalidHTMLElement = {
@@ -11,7 +11,7 @@ Tecate.invalidHTMLElement = {
     'message': "Opening HTML tag without a valid element name"
 },
 Tecate.missingEquals = {
-    'regex': new RegExp("(<[^=>]+['\"]\\S+['\"])", "g"),
+    'regex': new RegExp("(<[^=>]+['\"]\\S+['\"]([^>]*>)?)", "g"),
     'message': "Missing equals sign for attribute"
 },
 Tecate.missingQuoteAfterEquals = {
@@ -94,14 +94,15 @@ Tecate.getErrorLines = function(idx, html) {
     var count = 0;
     for (var i = 0; i < lines.length; i++) {
         count = count + lines[i].length;
-        if (idx < count) {
+        if (idx <= count) {
             return i + 1;
         }
     }
+    return lines.length;
 };
 
 Tecate.stripComments = function(html) {
-    return html.replace(/<!--(.*)-->/g, "");
+    return html.replace(/<!--(.*)--(\s*)>/g, "");
 };
 
 // XXX this should return the errorsList and delegate to another function to
@@ -116,7 +117,7 @@ Tecate.evaluateHTML = function(html) {
             errorsList.push({
                 'errorString': error.message,
                 'error': result[1],
-                'line': Tecate.getErrorLines(result.index, html),
+                'line': Tecate.getErrorLines(html.indexOf(result[1]), html),
                 'html': html
             });
         }

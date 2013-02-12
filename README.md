@@ -62,6 +62,8 @@ These are some of the most pernicious.
 
 ##### Invalid Element Name
 
+Say you mixed up your "m" and your "n":
+
 ```html
 <form class="foo">
     <imput type="text" />
