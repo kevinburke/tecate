@@ -1,35 +1,39 @@
 var validAttribute = "<a href='blah' attr=\"bar\">test</a>";
 describe("Regex tests", function() {
     it("matches two opening HTML tags without a closing tag", function() {
-        expect(Tecate.missingClosingTag.regex.exec("<div    <div>").index).toBe(0);
+        expect("<div    <div>").toMatch(Tecate.missingClosingTag.regex);
     });
 
     it("doesn't match two opening HTML tags with a closing tag in between", function() {
-        expect(Tecate.missingClosingTag.regex.exec("<div>    <div>")).toBe(null);
+        expect("<div>    <div>").toMatch(Tecate.missingClosingTag.regex);
     });
 
     it("doesn't fail any regex for valid HTML tags", function() {
         for (var i = 0; i < Tecate.errors.length; i++) {
-            expect(Tecate.errors[i].regex.exec("<div>    <div><img/></div>")).toBe(null);
+            expect("<div>  <div><img/></div>").not.toMatch(Tecate.errors[i].regex);
         }
     });
 
     it("doesn't fail any regex for valid HTML attributes", function() {
         for (var i = 0; i < Tecate.errors.length; i++) {
-            expect(Tecate.errors[i].regex.exec(validAttribute)).toBe(null);
+            expect(validAttribute).not.toMatch(Tecate.errors[i].regex);
         }
     });
 
     it("breaks if you forget an equals sign", function() {
-        expect(Tecate.missingEquals.regex.exec("<a href\"cool\">link</a>").index).toBe(0);
+        expect("<a href\"cool\">link</a>").toMatch(Tecate.missingEquals.regex);
+    });
+
+    it("equals sign match isn't too broad", function() {
+        expect(Tecate.missingEquals.regex.exec("<div> <div><div><a href\"cool\">link</a>").index).toBe(16);
     });
 
     it("detects when you forget a opening quotation after the equals sign", function() {
-        expect(Tecate.missingQuoteAfterEquals.regex.exec("<a href=cool\">link</a>").index).toBe(3);
+        expect("<a href=cool\">link</a>").toMatch(Tecate.missingQuoteAfterEquals);
     });
 
     it("detects when you forget a opening single quotation after the equals sign", function() {
-        expect(Tecate.missingQuoteAfterEquals.regex.exec("<a href=cool\'>link</a>").index).toBe(3);
+        expect("<a href=cool\'>link</a>").toMatch(Tecate.missingQuoteAfterEquals.regex);
     });
 
     it("strips comments from html", function() {

@@ -5,7 +5,7 @@ Tecate.missingClosingTag = {
     'message': "Opening tag with no closing tag"
 },
 Tecate.missingEquals = {
-    'regex': new RegExp("(<(.*)[^=]+['\"]\\S+['\"])", "g"),
+    'regex': new RegExp("(<[^=>]+['\"]\\S+['\"])", "g"),
     'message': "Missing equals sign for attribute"
 },
 Tecate.missingQuoteAfterEquals = {
@@ -82,9 +82,15 @@ Tecate.showErrors = function(errorsList) {
     }
 };
 
-Tecate.getErrorLines = function(idx) {
-    // XXX
-    return idx;
+Tecate.getErrorLines = function(idx, html) {
+    var lines = html.split('\n');
+    var count = 0;
+    for (var i = 0; i < lines.length; i++) {
+        count = count + lines[i].length;
+        if (idx < count) {
+            return i + 1;
+        }
+    }
 };
 
 Tecate.stripComments = function(html) {
@@ -95,11 +101,9 @@ Tecate.evaluateHtml = function(html) {
     var result;
     var errorsList = [];
     var commentFreeHtml = Tecate.stripComments(html);
-    console.log(commentFreeHtml);
     for (var i = 0; i < Tecate.errors.length; i++) {
         var error = Tecate.errors[i];
         while ((result = error.regex.exec(commentFreeHtml)) !== null) {
-            console.log(result[1]);
             errorsList.push({
                 'errorString': error.message,
                 'error': result[1],
