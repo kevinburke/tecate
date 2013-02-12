@@ -4,8 +4,8 @@ Writing HTML is hard. Let's go shopping
 
 ### Catching Bugs
 
-Tecate will display an error message if you messed up your HTML. Here are some
-of the bugs it can catch for you:
+Tecate will display an error message straight to the page if you messed up your
+HTML. Here are some of the bugs it can catch for you:
 
 ##### Missing a Closing Tag
 
@@ -63,6 +63,7 @@ Drop this into the &lt;head> of your HTML document, like this:
 </html>
 ```
 
-Then you'll start getting nice error messages, like this:
+Then if there's a problem with your HTML, you'll start getting nice error
+messages, like this:
 
 <img src="https://www.evernote.com/shard/s265/sh/1d0ef423-e5de-4e40-a110-fad2ccd01bef/22bffc622af4152261b63184ad4b8cae/res/645f4d83-f8a8-45c7-8ec7-b2fc12b5e16d/skitch.png" alt="error message" />
