@@ -5,7 +5,7 @@ describe("Regex tests", function() {
     });
 
     it("doesn't match two opening HTML tags with a closing tag in between", function() {
-        expect("<div>    <div>").toMatch(Tecate.missingClosingTag.regex);
+        expect("<div>    <div>").not.toMatch(Tecate.missingClosingTag.regex);
     });
 
     it("doesn't fail any regex for valid HTML tags", function() {
@@ -29,7 +29,7 @@ describe("Regex tests", function() {
     });
 
     it("detects when you forget a opening quotation after the equals sign", function() {
-        expect("<a href=cool\">link</a>").toMatch(Tecate.missingQuoteAfterEquals);
+        expect("<a href=cool\">link</a>").toMatch(Tecate.missingQuoteAfterEquals.regex);
     });
 
     it("detects when you forget a opening single quotation after the equals sign", function() {
@@ -42,6 +42,18 @@ describe("Regex tests", function() {
 
     it("escapes unsafe HTML", function() {
         expect(Tecate.escapeHTML("<>\"&")).toBe("&lt;&gt;&quot;&amp;");
+    });
+
+    it("checks for invalid characters", function() {
+        expect("<imput type='text' />").toMatch(Tecate.invalidHTMLElement.regex);
+    });
+
+    it("does not match valid HTML elements", function() {
+        expect("<html>").not.toMatch(Tecate.invalidHTMLElement.regex);
+    });
+
+    it("does not match valid closing elements", function() {
+        expect("</html>").not.toMatch(Tecate.invalidHTMLElement.regex);
     });
 
     afterEach(function() {
