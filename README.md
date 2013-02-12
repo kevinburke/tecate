@@ -32,9 +32,9 @@ messages, like this:
 Tecate will display an error message straight to the page if you messed up your
 HTML. Here are some of the bugs it can catch for you:
 
-##### Missing a Closing Tag
+##### Missing a Closing Bracket
 
-Say you forgot to close a div, or closed it badly:
+Say you forgot to end a tag with a bracket, or closed it badly:
 
 ```html
 <div class="foo"

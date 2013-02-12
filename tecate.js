@@ -2,9 +2,9 @@ var Tecate = Tecate || {};
 
 Tecate.validHTMLElements = [ "a", "abbr", "acronym", "address", "applet", "area", "article", "aside", "audio", "b", "base", "basefont", "bdi", "bdo", "bgsound", "big", "blink", "blockquote", "body", "br", "button", "canvas", "caption", "center", "cite", "code", "colgroup", "del", "details", "dfn", "dir", "div", "dl", "!doctype", "dt", "em", "embed", "fieldset", "figcaption", "figure", "font", "footer", "form", "frame", "h1", "h2", "h3", "h4", "h5", "h6", "head", "header", "hgroup", "hr", "html", "i", "iframe", "img", "input", "ins", "kbd", "keygen", "label", "legend", "li", "link", "listing", "map", "mark", "marquee", "menu", "meta", "meter", "nav", "noscript", "object", "ol", "optgroup", "option", "output", "p", "param", "plaintext", "pre", "progress", "q", "ruby", "s", "samp", "script", "section", "select", "small", "source", "span", "strike", "strong", "style", "sub", "summary", "sup", "table", "tbody", "td", "textarea", "tfoot", "th", "thead", "time", "title", "tr", "track", "tt", "u", "ul", "var", "video", "wbr", "xmp" ];
 
-Tecate.missingClosingTag = {
+Tecate.missingClosingBracket = {
     'regex': new RegExp("(<[^>]+<)", "g"),
-    'message': "Opening tag with no closing tag"
+    'message': "Opening bracket with no closing bracket"
 },
 Tecate.invalidHTMLElement = {
     'regex': new RegExp("(<(?!/\?" + Tecate.validHTMLElements.join("\\b|/\?") + "\\b)[^ \n>]+)", "gi"),
@@ -26,7 +26,7 @@ Tecate.missingQuoteAtEndOfAttribute = {
 Tecate.errors = [
     Tecate.missingQuoteAtEndOfAttribute,
     Tecate.missingQuoteAfterEquals,
-    Tecate.missingClosingTag,
+    Tecate.missingClosingBracket,
     Tecate.missingEquals,
     Tecate.invalidHTMLElement
 ];

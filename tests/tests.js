@@ -1,11 +1,11 @@
 var validAttribute = "<a href='blah' attr=\"bar\">test</a>";
 describe("Regex error matching tests", function() {
     it("matches two opening HTML tags without a closing tag", function() {
-        expect("<div    <div>").toMatch(Tecate.missingClosingTag.regex);
+        expect("<div    <div>").toMatch(Tecate.missingClosingBracket.regex);
     });
 
-    it("doesn't match two opening HTML tags with a closing tag in between", function() {
-        expect("<div>    <div>").not.toMatch(Tecate.missingClosingTag.regex);
+    it("doesn't match two opening HTML tags with a closing bracket in between", function() {
+        expect("<div>    <div>").not.toMatch(Tecate.missingClosingBracket.regex);
     });
 
     it("doesn't fail any regex for valid HTML tags", function() {
