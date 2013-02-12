@@ -42,10 +42,6 @@ Say you forgot to close a div, or closed it badly:
 </div>
 ```
 
-Tecate will catch it and warn you at the top of your page.
-
-    Opening tag with no closing tag: <div class="foo" on line 2
-
 ##### Missing Equals Sign For Attribute
 
 ```html
@@ -53,10 +49,6 @@ Tecate will catch it and warn you at the top of your page.
     Some text
 </div>
 ```
-
-Tecate will catch it and warn you at the top of your page.
-
-    Missing equals sign for attribute: <div class"foo" on line 17
 
 ##### Missing Opening or Closing Attribute Quotes
 
@@ -68,5 +60,10 @@ These are some of the most pernicious.
 </div>
 ```
 
-Tecate will warn you if you screw these up.
+##### Invalid Element Name
 
+```html
+<form class="foo">
+    <imput type="text" />
+</form>
+```
