@@ -45,7 +45,11 @@ describe("Regex error matching tests", function() {
     });
 
     it("detects when you forget a opening single quotation after the equals sign", function() {
-        expect("<a href=cool\'>link</a>").toMatch(Tecate.missingQuoteAfterEquals.regex);
+        expect("<a href=cool'>link</a>").toMatch(Tecate.missingQuoteAfterEquals.regex);
+    });
+
+    it("doesnt match an equals sign in the middle of a quote", function() {
+        expect("<a href='cool=bar'>link</a>").not.toMatch(Tecate.missingQuoteAfterEquals.regex);
     });
 
     it("detects when you don't end an attribute with a single quote", function() {

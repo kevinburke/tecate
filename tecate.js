@@ -15,7 +15,7 @@ Tecate.missingEquals = {
     'message': "Missing equals sign for attribute"
 },
 Tecate.missingQuoteAfterEquals = {
-    'regex': new RegExp("(\\S+=[^'\"]+['\"])[ >]", "g"),
+    'regex': new RegExp("( [^\"']+=[^'\"]+['\"])[ >]", "g"),
     'message': "Missing quote after equals sign for attribute"
 },
 Tecate.missingQuoteAtEndOfAttribute = {
