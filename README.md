@@ -85,3 +85,18 @@ Say you mixed up your "m" and your "n":
     <imput type="text" />
 </form>
 ```
+
+### Reporting Bugs
+
+Please [create a new issue][issue] here and I will take a look.
+
+[issue]: https://github.com/kevinburke/tecate/issues
+
+### Guidelines
+
+Tecate parses HTML with regex, which is [never a good idea][center]. Given the
+vast, wide array of ways this can fail, the aim of Tecate is that it's better
+to **not** warn you about errors than it is to erroneously warn about things
+that are actually okay.
+
+[center]: http://stackoverflow.com/q/1732348/329700
