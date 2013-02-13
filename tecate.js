@@ -105,6 +105,14 @@ Tecate.stripComments = function(html) {
     return html.replace(/<!--(.*)--(\s*)>/g, "");
 };
 
+/**
+ * Note, this is dumb - won't get dynamically inserted scripts or anything
+ */
+Tecate.stripTag = function(html, tagName) {
+    return html.replace(new RegExp(
+                "<" + tagName + "[^>]*>(.*)</" + tagName + ">", "g"), "");
+};
+
 // XXX this should return the errorsList and delegate to another function to
 // render
 Tecate.evaluateHTML = function(html) {

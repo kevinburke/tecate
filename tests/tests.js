@@ -87,6 +87,10 @@ describe("Regex error matching tests", function() {
     });
 });
 
+var script = "<script type='text/javascript' src='foo'></script>";
+var scriptWithContent = "<script>alert(blah);</script>";
+var style = "<style>* { width: 100; } /* this is a comment */ foo > bar { blah; }</style>";
+
 describe("Tecate tests", function() {
     it("correctly detects line numbers for an index", function() {
         expect(Tecate.getErrorLines(2, "<html>\n<head>")).toBe(1);
@@ -99,5 +103,16 @@ describe("Tecate tests", function() {
     it("strips comments from html", function() {
         expect(Tecate.stripComments("hey<!-- <<<<a href='comment'>--><")).toBe("hey<");
         expect(Tecate.stripComments("hey<!--comment --  ><")).toBe("hey<");
+    });
+
+    it("strips javascripts from html", function() {
+
+        expect(Tecate.stripTag(script, "script")).toBe("");
+        expect(Tecate.stripTag(script, "script")).toBe("");
+    });
+
+    it("strips style tags from html", function() {
+
+        expect(Tecate.stripTag(style, "style")).toBe("");
     });
 });
