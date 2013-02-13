@@ -20,6 +20,14 @@ describe("Regex error matching tests", function() {
         }
     });
 
+    it("works properly with spaced class declarations", function() {
+        for (var i = 0; i < Tecate.errors.length; i++) {
+
+            expect("<a class='cool beans'>link</a>").not.toMatch(Tecate.errors[i].regex);
+        }
+    });
+
+
     it("breaks if you forget an equals sign", function() {
         expect("<a href\"cool\">link</a>").toMatch(Tecate.missingEquals.regex);
     });
@@ -38,6 +46,16 @@ describe("Regex error matching tests", function() {
 
     it("detects when you forget a opening single quotation after the equals sign", function() {
         expect("<a href=cool\'>link</a>").toMatch(Tecate.missingQuoteAfterEquals.regex);
+    });
+
+    it("detects when you don't end an attribute with a single quote", function() {
+
+        expect("<a href=\'cool>link</a>").toMatch(Tecate.missingQuoteAtEndOfAttribute.regex);
+    });
+
+    it("detects quote matches when you have two attributes", function() {
+
+        expect("<a href=\'cool class='blah'>link</a>").toMatch(Tecate.missingQuoteAtEndOfAttribute.regex);
     });
 
     it("escapes unsafe HTML", function() {
