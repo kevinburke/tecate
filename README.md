@@ -27,6 +27,21 @@ messages, like this:
 
 <img src="https://www.evernote.com/shard/s265/sh/1d0ef423-e5de-4e40-a110-fad2ccd01bef/22bffc622af4152261b63184ad4b8cae/res/645f4d83-f8a8-45c7-8ec7-b2fc12b5e16d/skitch.png" alt="error message" />
 
+### But you shouldn't put Javascript in the &lt;head>
+
+[I agree][footer]. The problem is if you load the `tecate.js` file after, say,
+an unclosed link tag:
+
+```html
+<a href="foo
+<script src="tecate.js"></script>
+```
+
+It won't load properly and you'll never get the message telling you it didn't
+load! That's why I recommend putting `tecate.js` in the &lt;head>
+
+[footer]: http://stackoverflow.com/a/5329895/329700
+
 ### Catching Bugs
 
 Tecate will display an error message straight to the page if you messed up your
