@@ -53,6 +53,11 @@ describe("Regex error matching tests", function() {
         expect("<a href=\'cool>link</a>").toMatch(Tecate.missingQuoteAtEndOfAttribute.regex);
     });
 
+    var ampersands = '<a class="button" href="./index.php?m=tasks&amp;a=todo"><span><b>My Tasks</b></span></a>';
+    it("fixes casey's html string", function() {
+        expect(ampersands).not.toMatch(Tecate.missingQuoteAtEndOfAttribute.regex);
+    });
+
     it("detects quote matches when you have two attributes", function() {
 
         expect("<a href=\'cool class='blah'>link</a>").toMatch(Tecate.missingQuoteAtEndOfAttribute.regex);
