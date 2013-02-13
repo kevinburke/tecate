@@ -38,7 +38,8 @@ an unclosed link tag:
 ```
 
 It won't load properly and you'll never get the message telling you it didn't
-load! That's why I recommend putting `tecate.js` in the &lt;head>
+load! That's why I recommend putting `tecate.js` in the &lt;head> of your HTML
+file.
 
 [footer]: http://stackoverflow.com/a/5329895/329700
 
