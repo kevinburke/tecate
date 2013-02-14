@@ -114,6 +114,10 @@ describe("Tecate tests", function() {
         expect(Tecate.stripComments("hey<!--comment --  ><")).toBe("hey<");
     });
 
+    it("strips multiline comments", function() {
+        expect(Tecate.stripComments("hey<!--comment\n --  ><")).toBe("hey<");
+    });
+
     it("strips javascripts from html", function() {
 
         expect(Tecate.stripTag(script, "script")).toBe("");

@@ -102,7 +102,7 @@ Tecate.getErrorLines = function(idx, html) {
 };
 
 Tecate.stripComments = function(html) {
-    return html.replace(/<!--(.*)--(\s*)>/g, "");
+    return html.replace(/<!--([\s\S]*)--(\s*)>/g, "");
 };
 
 /**
@@ -110,7 +110,7 @@ Tecate.stripComments = function(html) {
  */
 Tecate.stripTag = function(html, tagName) {
     return html.replace(new RegExp(
-                "<" + tagName + "[^>]*>(.*)</" + tagName + ">", "g"), "");
+                "<" + tagName + "[^>]*>([\\s\\S]*)</" + tagName + ">", "g"), "");
 };
 
 // XXX this should return the errorsList and delegate to another function to
@@ -118,7 +118,9 @@ Tecate.stripTag = function(html, tagName) {
 Tecate.evaluateHTML = function(html) {
     var result;
     var errorsList = [];
-    var commentFreeHtml = Tecate.stripComments(html);
+    var noScripts = Tecate.stripTag(html, 'script');
+    var noStyles = Tecate.stripTag(noScripts, 'style');
+    var commentFreeHtml = Tecate.stripComments(noStyles);
     for (var i = 0; i < Tecate.errors.length; i++) {
         var error = Tecate.errors[i];
         while ((result = error.regex.exec(commentFreeHtml)) !== null) {
