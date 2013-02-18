@@ -20,13 +20,17 @@ describe("Regex error matching tests", function() {
         }
     });
 
-    it("works properly with spaced class declarations", function() {
+    it("passes for spaced class declarations", function() {
         for (var i = 0; i < Tecate.errors.length; i++) {
-
             expect("<a class='cool beans'>link</a>").not.toMatch(Tecate.errors[i].regex);
         }
     });
 
+    it("passes for single-html elements with quotes", function() {
+        for (var i = 0; i < Tecate.errors.length; i++) {
+            expect("<img src='blah'/>").not.toMatch(Tecate.errors[i].regex);
+        }
+    });
 
     it("breaks if you forget an equals sign", function() {
         expect("<a href\"cool\">link</a>").toMatch(Tecate.missingEquals.regex);
